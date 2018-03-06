@@ -51,7 +51,7 @@ synchronized (listener) {
 }
 ```
 
-To write PDU to file:
+To write PDU to file: 
 ```
 EnsteamSnmpClient client = new EnsteamSnmpClientImpl("udp:153.19.121.167/161");
 client.start();
