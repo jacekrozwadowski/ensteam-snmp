@@ -5,9 +5,10 @@ Micro tool for receive SNMP PDUs
 Main features:
 - Snmp4j based
 - Sync and Async message retrieve way
+- Unit and Integration Tests
 
 
-# How to build it
+# How to test and build it
 
 First you have to clone project:
 ```
@@ -15,10 +16,20 @@ git clone -b master https://github.com/jacekrozwadowski/ensteam-snmp.git
 cd ensteam-snmp
 ```
 
+To perform all tests - unit and integration use maven command:
+```
+mvn clean verify
+```
+
 To build project use maven command:
 ```
-mvn clean package
+mvn clean verify package
 ```
+
+*Remark!* 
+*Integration test class EnsteamSnmpIT is using external properties file src/test/resources/config.properties*
+*for store real data. Please modify it in case of some environment setup changes* 
+
 
 
 # How to use

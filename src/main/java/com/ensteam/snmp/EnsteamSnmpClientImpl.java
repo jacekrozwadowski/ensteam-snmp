@@ -104,7 +104,8 @@ public class EnsteamSnmpClientImpl implements EnsteamSnmpClient {
 		if(oid==null)
 			throw new IllegalArgumentException("Empty OID");	
 		
-		return get(new OID[] { oid });
+		PDU pdu = get(new OID[] { oid });
+		return pdu;
 	}
 	
 	/* Return Protocol Data Unit (PDU) in sync way for set of given Object Identifier Class(OID) */
@@ -114,7 +115,10 @@ public class EnsteamSnmpClientImpl implements EnsteamSnmpClient {
 			pdu.add(new VariableBinding(oid));
 		}
 		pdu.setType(PDU.GET);
-		return snmp.send(pdu, getTarget(), null).getResponse();
+		
+		PDU res = snmp.send(pdu, getTarget(), null).getResponse();
+		
+		return res;
 	}
 	
 	/* Return Protocol Data Unit (PDU) in async way for set of given Object Identifier Class(OID) */

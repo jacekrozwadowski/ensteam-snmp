@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.ensteam.snmp</groupId>
 	<artifactId>ensteam-snmp</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2</version>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -31,6 +31,14 @@
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+		    <groupId>org.mockito</groupId>
+		    <artifactId>mockito-core</artifactId>
+		    <version>2.15.0</version>
+		    <scope>test</scope>
+		</dependency>
+		
+		
 	</dependencies>
 
 	<build>
@@ -43,6 +51,23 @@
 					<target>${java.version}</target>
 				</configuration>
 			</plugin>
+			
+			<!-- Configure the integration-test plugin and pass the 'http.port' as 
+				system property -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>2.20.1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
 		</plugins>
 	</build>
 
