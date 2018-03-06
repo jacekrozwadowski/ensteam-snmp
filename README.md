@@ -4,7 +4,7 @@ Micro tool for receive SNMP PDUs
 
 Main features:
 - Snmp4j based
-- Sencha GXT is using as UI Framework
+- Sync and Async message retrieve way
 
 
 # How to build it
