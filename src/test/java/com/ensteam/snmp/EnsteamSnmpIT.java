@@ -67,7 +67,7 @@ public class EnsteamSnmpIT {
 		assertNotNull(WRONG_OID);
 		
 		client = new EnsteamSnmpClientImpl(ADDRESS);
-		transportMapping = client.start();
+		transportMapping = client.init();
 		assertNotNull(client);
 	}
 	
@@ -108,7 +108,7 @@ public class EnsteamSnmpIT {
 	@Test(expected = MessageErrorException.class)
     public void testUnavailableAddressRequest() throws MessageErrorException, IOException {
 		client = new EnsteamSnmpClientImpl(UNAVAILABLE_ADDRESS);
-		transportMapping = client.start();
+		transportMapping = client.init();
 		client.getAsString(new OID(SYS_DESCR_OID));
     }
 	

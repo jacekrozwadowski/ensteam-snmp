@@ -20,7 +20,7 @@ public interface EnsteamSnmpClient {
 	  * The code snippet to setup a default SNMP session for UDP transport with SNMP support 
 	  * @return TransportMapping<UdpAddress>
 	  */
-	public TransportMapping<UdpAddress> start() throws IOException;
+	public TransportMapping<UdpAddress> init() throws IOException;
 	
 	
 	/**

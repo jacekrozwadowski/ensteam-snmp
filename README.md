@@ -42,7 +42,7 @@ EnsteamSnmpClient client = new EnsteamSnmpClientBuilder("udp:153.19.121.167/161"
 				.setTimeout(1500)
 				.setRetries(2)
 				.build();
-client.start();
+client.init();
 String sysDescr = client.getAsString(new OID("1.3.6.1.2.1.1.1.0"));
 System.out.println("sync sys.descr: "+sysDescr);
 ```
@@ -54,7 +54,7 @@ EnsteamSnmpClient client = new EnsteamSnmpClientBuilder("udp:153.19.121.167/161"
 				.setTimeout(1500)
 				.setRetries(2)
 				.build();
-client.start();
+client.init();
 ResponseListener listener = new ResponseListener() {
     public void onResponse(ResponseEvent event) {
         ((Snmp)event.getSource()).cancel(event.getRequest(), this);
@@ -78,6 +78,6 @@ EnsteamSnmpClient client = new EnsteamSnmpClientBuilder("udp:153.19.121.167/161"
 				.setTimeout(1500)
 				.setRetries(2)
 				.build();
-client.start();
+client.init();
 client.writeToFile(new File("./sys.desc"), new OID("1.3.6.1.2.1.1.1.0"));
 ```

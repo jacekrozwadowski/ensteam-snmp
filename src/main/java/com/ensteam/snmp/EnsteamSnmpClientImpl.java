@@ -85,7 +85,7 @@ public class EnsteamSnmpClientImpl implements EnsteamSnmpClient {
 	}
 	
 	@Override
-	public TransportMapping<UdpAddress> start() throws IOException {
+	public TransportMapping<UdpAddress> init() throws IOException {
 		TransportMapping<UdpAddress> transport = new DefaultUdpTransportMapping();
 		snmp = new Snmp(transport);
 		USM usm = new USM(SecurityProtocols.getInstance(),
