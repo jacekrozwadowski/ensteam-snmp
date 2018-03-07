@@ -2,7 +2,6 @@ package com.ensteam.snmp;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -73,11 +72,6 @@ public class EnsteamSnmpIT {
 	}
 	
 	@Test
-	public void dummy() {
-		assertTrue(true);
-	}
-	
-	@Test
     public void testFileWrite() throws Exception {
 		// Create a temporary file.
 	    final File file = tempFolder.newFile("sysDescr.txt");
@@ -104,16 +98,6 @@ public class EnsteamSnmpIT {
 	@Test
     public void testListen() throws Exception {
         assertEquals(transportMapping.isListening(), true);
-    }
-	
-	@Test(expected = IllegalArgumentException.class)
-    public void testEmptyConstructor() throws Exception {
-		new EnsteamSnmpClientImpl(null);
-    }
-	
-	@Test(expected = IllegalArgumentException.class)
-    public void testEmptyOID() throws Exception {
-		client.getAsString(null);
     }
 	
 	@Test(expected = MessageErrorException.class)

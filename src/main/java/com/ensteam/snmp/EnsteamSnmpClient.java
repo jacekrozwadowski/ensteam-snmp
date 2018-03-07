@@ -61,4 +61,24 @@ public interface EnsteamSnmpClient {
 	 */
 	public void setSnmpVersion(int version);
 	
+	/**
+	 * @return Current timeout value in ms
+	 */
+	public int getTimeout();
+	
+	/**
+	 * @param timeout set connection timeout value
+	 */
+	public void setTimeout(int timeout);
+	
+	/**
+	 * @return Current number of connection retries
+	 */
+	public int getRetries();
+	
+	/**
+	 * @param retries set connection retries value
+	 */
+	public void setRetries(int retries);
+	
 }

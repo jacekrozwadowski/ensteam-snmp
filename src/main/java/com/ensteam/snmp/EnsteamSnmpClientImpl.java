@@ -29,16 +29,26 @@ import com.ensteam.snmp.exception.MessageErrorException;
 public class EnsteamSnmpClientImpl implements EnsteamSnmpClient {
 
 	private Snmp snmp = null;
-	private String address = null;
 	
+	private String address = null;
 	private int snmpVersion = SnmpConstants.version1;
-
-	public EnsteamSnmpClientImpl(String add){
-		address = add;
+	private int timeout = 2000;
+	private int retries = 2;
+	
+	protected EnsteamSnmpClientImpl(String address, int snmpVersion, int timeout, int retries) {
+		this.address = address;
+		this.snmpVersion = snmpVersion;
+		this.timeout = timeout;
+		this.retries = retries;
+		
 		if(address==null)
-			throw new IllegalArgumentException("Empty target address. Please provide it in format udp:<IP>/<Port>");			
+			throw new IllegalArgumentException("Empty target address. Please provide it in format udp:<IP>/<Port>");
 	}
 	
+	protected EnsteamSnmpClientImpl(String address){
+		this(address, SnmpConstants.version1, 2000, 2);		
+	}
+
 	@Override
 	public int getSnmpVersion() {
 		return snmpVersion;
@@ -47,6 +57,26 @@ public class EnsteamSnmpClientImpl implements EnsteamSnmpClient {
 	@Override
 	public void setSnmpVersion(int snmpVersion) {
 		this.snmpVersion = snmpVersion;
+	}
+
+	@Override
+	public int getTimeout() {
+		return timeout;
+	}
+
+	@Override
+	public void setTimeout(int timeout) {
+		this.timeout = timeout;
+	}
+
+	@Override
+	public int getRetries() {
+		return retries;
+	}
+
+	@Override
+	public void setRetries(int retries) {
+		this.retries = retries;
 	}
 
 	@Override
@@ -137,9 +167,9 @@ public class EnsteamSnmpClientImpl implements EnsteamSnmpClient {
 		CommunityTarget target = new CommunityTarget();
 		target.setCommunity(new OctetString("public"));
 		target.setAddress(targetAddress);
-		target.setRetries(2);
-		target.setTimeout(1500);
-		target.setVersion(SnmpConstants.version1);
+		target.setRetries(retries);
+		target.setTimeout(timeout);
+		target.setVersion(snmpVersion);
 		return target;
 	}
 

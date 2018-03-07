@@ -27,6 +27,7 @@ mvn clean verify package
 ```
 
 *Remark!* 
+
 *Integration test class EnsteamSnmpIT is using external properties file src/test/resources/config.properties*
 *for store real data. Please modify it in case of some environment setup changes* 
 
@@ -36,15 +37,23 @@ mvn clean verify package
 
 To get one PDU variable value from external device in synchronous way:
 ```
-EnsteamSnmpClient client = new EnsteamSnmpClientImpl("udp:153.19.121.167/161");
+EnsteamSnmpClient client = new EnsteamSnmpClientBuilder("udp:153.19.121.167/161")
+				.setSnmpVersion(SnmpConstants.version1)
+				.setTimeout(1500)
+				.setRetries(2)
+				.build();
 client.start();
 String sysDescr = client.getAsString(new OID("1.3.6.1.2.1.1.1.0"));
-System.out.println("sys.descr: "+sysDescr);
+System.out.println("sync sys.descr: "+sysDescr);
 ```
 
 To get one PDU from external device in asynchronous way:
 ```
-EnsteamSnmpClient client = new EnsteamSnmpClientImpl("udp:153.19.121.167/161"); //"udp:153.19.121.167/161"
+EnsteamSnmpClient client = new EnsteamSnmpClientBuilder("udp:153.19.121.167/161")
+				.setSnmpVersion(SnmpConstants.version1)
+				.setTimeout(1500)
+				.setRetries(2)
+				.build();
 client.start();
 ResponseListener listener = new ResponseListener() {
     public void onResponse(ResponseEvent event) {
@@ -64,7 +73,11 @@ synchronized (listener) {
 
 To write PDU to file: 
 ```
-EnsteamSnmpClient client = new EnsteamSnmpClientImpl("udp:153.19.121.167/161");
+EnsteamSnmpClient client = new EnsteamSnmpClientBuilder("udp:153.19.121.167/161")
+				.setSnmpVersion(SnmpConstants.version1)
+				.setTimeout(1500)
+				.setRetries(2)
+				.build();
 client.start();
 client.writeToFile(new File("./sys.desc"), new OID("1.3.6.1.2.1.1.1.0"));
 ```
