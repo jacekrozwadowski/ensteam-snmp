@@ -27,64 +27,63 @@ import org.snmp4j.smi.VariableBinding;
 
 @RunWith(MockitoJUnitRunner.class)
 public class EnsteamSnmpMockTest {
-	
+
 	private static final String TEST_TEXT = "Test string with normal text{}";
-	
+
 	@Mock
 	Snmp snmp;
-	
+
 	@InjectMocks
 	private EnsteamSnmpClientImpl client = new EnsteamSnmpClientImpl("dummy address");
-	
+
 	@Test
-    public void testSyncGetAsString() throws Exception {
+	public void testSyncGetAsString() throws Exception {
 		PDU responsePDU = new PDU();
 		responsePDU.setType(PDU.RESPONSE);
 		responsePDU.setErrorStatus(PDU.noError);
 		responsePDU.setErrorIndex(0);
-		responsePDU.add(new VariableBinding(new OID(SnmpConstants.sysDescr), new OctetString(TEST_TEXT) ));
+		responsePDU.add(new VariableBinding(new OID(SnmpConstants.sysDescr), new OctetString(TEST_TEXT)));
 		ResponseEvent event = new ResponseEvent("", null, null, responsePDU, null);
-		
+
 		when(snmp.send(any(PDU.class), any(Target.class), isNull())).thenReturn(event);
-        assertEquals(client.getAsString(new OID(SnmpConstants.sysDescr)), new OctetString(TEST_TEXT).toString());
-    }
-	
+		assertEquals(client.getAsString(new OID(SnmpConstants.sysDescr)), new OctetString(TEST_TEXT).toString());
+	}
+
 	@Test
-    public void testAsyncGet() throws Exception {
+	public void testAsyncGet() throws Exception {
 		PDU responsePDU = new PDU();
 		responsePDU.setType(PDU.RESPONSE);
 		responsePDU.setErrorStatus(PDU.noError);
 		responsePDU.setErrorIndex(0);
-		responsePDU.add(new VariableBinding(new OID(SnmpConstants.sysDescr), new OctetString(TEST_TEXT) ));
+		responsePDU.add(new VariableBinding(new OID(SnmpConstants.sysDescr), new OctetString(TEST_TEXT)));
 		ResponseEvent event = new ResponseEvent("", null, null, responsePDU, null);
-		
+
 		ResponseListener listener = new ResponseListener() {
-		    public void onResponse(ResponseEvent event) {
-		    	assertEquals((new OctetString(TEST_TEXT)).toString(), event.getResponse().get(0).getVariable().toString());
-		    }
+			public void onResponse(ResponseEvent event) {
+				assertEquals((new OctetString(TEST_TEXT)).toString(),
+						event.getResponse().get(0).getVariable().toString());
+			}
 		};
-		
+
 		doAnswer(new Answer<Void>() {
 
 			@Override
 			public Void answer(InvocationOnMock invocation) throws Throwable {
 				Object[] arguments = invocation.getArguments();
 				if (arguments != null) {
-					assertTrue(arguments.length==4);
+					assertTrue(arguments.length == 4);
 					ResponseListener lst = (ResponseListener) arguments[3];
 					lst.onResponse(event);
 				} else {
 					assertNotNull(arguments);
 				}
-						
+
 				return null;
-		}}).when(snmp).send(any(PDU.class), any(Target.class), isNull(), any(ResponseListener.class));
-		
+			}
+		}).when(snmp).send(any(PDU.class), any(Target.class), isNull(), any(ResponseListener.class));
+
 		client.getAsync(new OID(SnmpConstants.sysDescr), listener);
 		assertTrue(true);
-    }
-	
-	
-	
+	}
 
 }
